@@ -92,6 +92,32 @@ class Settings(BaseSettings):
         env="DEBUG"
     )
 
+    # 在Settings类中添加以下字段
+    FORCE_OCR: bool = Field(
+        default=False,
+        description="强制使用OCR处理所有文本",
+        env="FORCE_OCR"
+    )
+
+    PAGE_RANGE: str = Field(
+        default="all",
+        description="处理的页面范围(如'1-3')",
+        env="PAGE_RANGE"
+    )
+
+    LANGUAGES: str = Field(
+        default="en",
+        description="文档语言代码(如'zh')",
+        env="LANGUAGES"
+    )
+
+    MAX_RETRIES: int = Field(
+        default=3,
+        description="最大重试次数",
+        env="MAX_RETRIES"
+    )
+
+
     # ==================== 添加计算属性（@computed_field） ====================
     @computed_field
     @property

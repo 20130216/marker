@@ -63,6 +63,11 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     print(f"  [os.environ] API密钥: {'***'+os.getenv('OPENAI_API_KEY')[-3:] if os.getenv('OPENAI_API_KEY') else '未设置'}")
     print(f"  API端点: {settings.OPENAI_BASE_URL}")
     print(f"  服务类型: {settings.LLM_SERVICE}\n")
+    print("\\n=== 新增参数验证 ===")
+    print(f"FORCE_OCR: {settings.FORCE_OCR}")
+    print(f"PAGE_RANGE: {settings.PAGE_RANGE}")
+    print(f"LANGUAGES: {settings.LANGUAGES}")
+    print(f"MAX_RETRIES: {settings.MAX_RETRIES}") 
     
     # 构造ConfigParser配置
     config = {
@@ -72,7 +77,11 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
         'openai_model': settings.OPENAI_MODEL,
         'openai_base_url': settings.OPENAI_BASE_URL,
         'output_dir': output_dir or settings.OUTPUT_DIR,
-        'output_format': settings.OUTPUT_FORMAT
+        'output_format': settings.OUTPUT_FORMAT,
+        'force_ocr': settings.FORCE_OCR,  # 从这里新增几个参数
+        'page_range': settings.PAGE_RANGE,
+        'languages': settings.LANGUAGES,
+        'max_retries': settings.MAX_RETRIES,
     }
     
     # 添加debug信息
