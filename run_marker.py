@@ -67,7 +67,7 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     print(f"FORCE_OCR: {settings.FORCE_OCR}")
     print(f"PAGE_RANGE: {settings.PAGE_RANGE}")
     print(f"LANGUAGES: {settings.LANGUAGES}")
-    print(f"MAX_RETRIES: {settings.MAX_RETRIES}") 
+    print(f"MAX_RETRIES: {settings.MAX_RETRIES}\n") 
     
     # 构造ConfigParser配置
     config = {
@@ -85,7 +85,7 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     }
     
     # 添加debug信息
-    print(f"✅ 最终LLM配置: service={config['llm_service']}, model={config['openai_model']}")  # 添加此行
+    print(f"✅ 最终LLM配置: service={config['llm_service']}, model={config['openai_model']}\n")  # 添加此行
 
     config_parser = ConfigParser(config)
 

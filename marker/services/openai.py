@@ -76,7 +76,7 @@ class OpenAIService(BaseService):
         ]
         
         # 添加调试代码，输出请求的消息内容
-        print(f"🔥 传递的消息体: {messages}")  # 输出传递给模型的消息体
+        print(f"🔥 marker/services/openai.py 中传递的消息: {messages}\n")  # 输出传递给模型的消息体
 
         if max_retries is None:
             max_retries = self.max_retries
@@ -86,6 +86,7 @@ class OpenAIService(BaseService):
 
         client = self.get_client()
         tries = 0
+        print("🔥 即将调用API，准备发送请求...\n")
         while tries < max_retries:
             try:
                 # 调用模型并捕获响应
@@ -99,8 +100,17 @@ class OpenAIService(BaseService):
                     timeout=timeout,
                     response_format=response_schema,
                 )
-                print(f"🔥 模型响应: {response}")  # 输出模型的响应
+                print(f"🔥 openai.py中‘__call__’的模型响应1: {response}")  # 输出模型的响应
+                print(f"🔥 openai.py中‘__call__’的模型响应: {response.choices[0].message.content}")
+                
                 response_text = response.choices[0].message.content
+                # 确保返回的是有效的JSON
+                return json.loads(response_text)
+            except json.JSONDecodeError as e:
+                print(f"Invalid JSON: {response_text}")
+                print(f"🔥 response = client.beta.chat.completions.parse 出现错误: {e}")
+                return {}                
+                
                 total_tokens = response.usage.total_tokens
                 block.update_metadata(llm_tokens_used=total_tokens, llm_request_count=1)
                 return json.loads(response_text)
@@ -118,6 +128,6 @@ class OpenAIService(BaseService):
                 break
 
         return {}
-
+        print("🔥 API调用成功，接收到响应\n")
     def get_client(self) -> openai.OpenAI:
         return openai.OpenAI(api_key=self.openai_api_key, base_url=self.openai_base_url)

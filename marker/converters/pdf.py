@@ -109,7 +109,7 @@ class PdfConverter(BaseConverter):
             self.llm_service = llm_service  # 直接使用预配置好的服务实例
 
         # 添加调试输出
-        print(f"LLM服务类型: {type(llm_service)}")
+        print(f"LLM服务类型: {llm_service.__class__}")
         if llm_service:
             print(f"支持的输出格式: {getattr(llm_service, 'output_format', '未设置')}")            
 

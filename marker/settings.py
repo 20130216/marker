@@ -23,6 +23,7 @@ def load_environment_variables():
         print("✅ 成功加载的环境变量:")
         print(f"OPENAI_MODEL={os.getenv('OPENAI_MODEL')}")
         print(f"OPENAI_API_KEY={os.getenv('OPENAI_API_KEY')}")
+        print(f"OUTPUT_FORMAT={os.getenv('OUTPUT_FORMAT')}\n")
     else:
         raise FileNotFoundError(f"❌ 环境文件不存在: {env_path}")
 
