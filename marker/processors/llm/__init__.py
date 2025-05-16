@@ -34,10 +34,11 @@ class BaseLLMProcessor(BaseProcessor):
     """
     A processor for using LLMs to convert blocks.
     """
-    google_api_key: Annotated[
-        str,
-        "The Google API key to use for the Gemini model.",
-    ] = settings.GOOGLE_API_KEY
+    # 完全移除该属性
+    # google_api_key: Annotated[
+    #     str,
+    #     "The Google API key to use for the Gemini model.",
+    # ] = settings.GOOGLE_API_KEY
     model_name: Annotated[
         str,
         "The name of the Gemini model to use.",

@@ -91,6 +91,37 @@ class Settings(BaseSettings):
         description="Enable debug mode",
         env="DEBUG"
     )
+    
+    GOOGLE_API_KEY: Optional[str] = Field(
+        default=None,
+        description="Google API key for Gemini models",
+        env="GOOGLE_API_KEY"
+    )    
+    
+    # 在Settings类中添加以下字段
+    FORCE_OCR: bool = Field(
+        default=False,
+        description="强制使用OCR处理所有文本",
+        env="FORCE_OCR"
+    )
+
+    PAGE_RANGE: str = Field(
+        default="all",
+        description="处理的页面范围(如'1-3')", 
+        env="PAGE_RANGE"
+    )
+
+    LANGUAGES: str = Field(
+        default="en",
+        description="文档语言代码(如'zh')",
+        env="LANGUAGES"
+    )
+
+    MAX_RETRIES: int = Field(
+        default=3,
+        description="最大重试次数",
+        env="MAX_RETRIES"
+    ) 
 
     # ==================== 添加计算属性（@computed_field） ====================
     @computed_field
@@ -110,23 +141,10 @@ class Settings(BaseSettings):
 
     @computed_field
     @property
-    def TORCH_DEVICE(self) -> str:
-        if torch.cuda.is_available():
-            return "cuda"
-        if torch.backends.mps.is_available():
-            return "mps"
-        return "cpu"
-
-    @computed_field
-    @property
     def TORCH_DEVICE_MODEL(self) -> str:
         """兼容旧代码的别名"""
         return self.TORCH_DEVICE
 
-    @computed_field
-    @property
-    def MODEL_DTYPE(self) -> torch.dtype:
-        return torch.bfloat16 if self.TORCH_DEVICE == "cuda" else torch.float32
     # ==================== 配置源设置 ====================
     class Config:
         extra = "ignore"

@@ -21,10 +21,10 @@ class LLMLayoutBuilder(LayoutBuilder):
     A builder for relabelling blocks to improve the quality of the layout.
     """
 
-    google_api_key: Annotated[
-        str,
-        "The Google API key to use for the Gemini model.",
-    ] = settings.GOOGLE_API_KEY
+    # google_api_key: Annotated[
+    #     str,
+    #     "The Google API key to use for the Gemini model.",
+    # ] = settings.GOOGLE_API_KEY
     confidence_threshold: Annotated[
         float,
         "The confidence threshold to use for relabeling (anything below is relabeled).",

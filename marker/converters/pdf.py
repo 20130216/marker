@@ -97,7 +97,21 @@ class PdfConverter(BaseConverter):
         llm_service: str | None = None,
         config=None
     ):
+    
+    # 添加debug信息
+        print(f"🔧 使用的LLM服务类: {llm_service.__class__.__name__}")  # 添加此行
+        print(f"🔧 配置的模型名称: {config.get('openai_model', '未设置')}")  # 添加此行        
+      
         super().__init__(config)
+
+        # 移除所有output_format处理逻辑
+        if llm_service:
+            self.llm_service = llm_service  # 直接使用预配置好的服务实例
+
+        # 添加调试输出
+        print(f"LLM服务类型: {type(llm_service)}")
+        if llm_service:
+            print(f"支持的输出格式: {getattr(llm_service, 'output_format', '未设置')}")            
 
         if config is None:
             config = {}
@@ -118,6 +132,9 @@ class PdfConverter(BaseConverter):
         if llm_service:
             llm_service_cls = strings_to_classes([llm_service])[0]
             llm_service = self.resolve_dependencies(llm_service_cls)
+            # 传递output_format配置
+            if hasattr(llm_service, 'output_format'):
+                llm_service.output_format = self.llm_service_config.get('output_format', 'markdown')
         elif config.get("use_llm", False):
             llm_service = self.resolve_dependencies(GoogleGeminiService)
 

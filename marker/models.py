@@ -1,12 +1,12 @@
-import os
-os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1" # Transformers uses .isin for an op, which is not supported on MPS
-
-from surya.detection import DetectionPredictor, InlineDetectionPredictor
-from surya.layout import LayoutPredictor
-from surya.ocr_error import OCRErrorPredictor
-from surya.recognition import RecognitionPredictor
-from surya.table_rec import TableRecPredictor
 from surya.texify import TexifyPredictor
+from surya.table_rec import TableRecPredictor
+from surya.recognition import RecognitionPredictor
+from surya.ocr_error import OCRErrorPredictor
+from surya.layout import LayoutPredictor
+from surya.detection import DetectionPredictor, InlineDetectionPredictor
+import os
+# Transformers uses .isin for an op, which is not supported on MPS
+os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 
 def create_model_dict(device=None, dtype=None) -> dict:

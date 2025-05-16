@@ -17,6 +17,10 @@ from marker.schema import BlockTypes
 class ConfigParser:
     def __init__(self, cli_options: dict):
         self.cli_options = cli_options
+    
+    # 在ConfigParser类中添加（或修改现有方法）
+    def get_llm_service_config(self):
+        return self.config.get('llm_service_config', {})    
 
     @staticmethod
     def common_options(fn):
@@ -76,8 +80,8 @@ class ConfigParser:
                         config[k] = v
 
         # Backward compatibility for google_api_key
-        if settings.GOOGLE_API_KEY:
-            config["gemini_api_key"] = settings.GOOGLE_API_KEY
+        # if settings.GOOGLE_API_KEY:
+        #     config["gemini_api_key"] = settings.GOOGLE_API_KEY
 
         return config
 
