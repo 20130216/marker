@@ -56,18 +56,19 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     settings = load_and_validate_config()
 
     # 添加调试输出（验证LLM配置）
-    print(f"\n🔍 环境变量验证:")
+    print("===以下是 run_marker.py中的系列参数 ===")
+    print(f"🔍 环境变量验证:")
     print(f"  [Settings类] 模型: {settings.OPENAI_MODEL}")
     print(f"  [os.environ] 模型: {os.getenv('OPENAI_MODEL')}")
     print(f"  [Settings类] API密钥: {'***'+settings.OPENAI_API_KEY[-3:] if settings.OPENAI_API_KEY else '未设置'}")
     print(f"  [os.environ] API密钥: {'***'+os.getenv('OPENAI_API_KEY')[-3:] if os.getenv('OPENAI_API_KEY') else '未设置'}")
     print(f"  API端点: {settings.OPENAI_BASE_URL}")
-    print(f"  服务类型: {settings.LLM_SERVICE}\n")
-    print("\\n=== 新增参数验证 ===")
-    print(f"FORCE_OCR: {settings.FORCE_OCR}")
-    print(f"PAGE_RANGE: {settings.PAGE_RANGE}")
-    print(f"LANGUAGES: {settings.LANGUAGES}")
-    print(f"MAX_RETRIES: {settings.MAX_RETRIES}\n") 
+    print(f"  服务类型: {settings.LLM_SERVICE}")
+    print("\--- 新增参数验证 ---")
+    print(f"  FORCE_OCR: {settings.FORCE_OCR}")
+    print(f"  PAGE_RANGE: {settings.PAGE_RANGE}")
+    print(f"  LANGUAGES: {settings.LANGUAGES}")
+    print(f"  MAX_RETRIES: {settings.MAX_RETRIES}") 
     
     # 构造ConfigParser配置
     config = {
@@ -85,8 +86,8 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     }
     
     # 添加debug信息
-    print(f"✅ 最终LLM配置: service={config['llm_service']}, model={config['openai_model']}\n")  # 添加此行
-
+    print(f"✅ 最终LLM配置: service={config['llm_service']}, model={config['openai_model']}")  # 添加此行
+    print("===以上是 run_marker.py中的系列参数 ===\n")
     config_parser = ConfigParser(config)
 
     # 构造 PDF 转换器

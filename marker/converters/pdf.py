@@ -96,23 +96,19 @@ class PdfConverter(BaseConverter):
         renderer: str | None = None,
         llm_service: str | None = None,
         config=None
-    ):
-    
-    # 添加debug信息
-        print(f"🔧 使用的LLM服务类: {llm_service.__class__.__name__}")  # 添加此行
-        print(f"🔧 配置的模型名称: {config.get('openai_model', '未设置')}")  # 添加此行        
+    ):      
       
         super().__init__(config)
 
-        # 移除所有output_format处理逻辑
         if llm_service:
-            self.llm_service = llm_service  # 直接使用预配置好的服务实例
-
-        # 添加调试输出
-        print(f"LLM服务类型: {llm_service.__class__}")
-        if llm_service:
-            print(f"支持的输出格式: {getattr(llm_service, 'output_format', '未设置')}")            
-
+            self.llm_service = llm_service  # 直接使用预配置好的服务实例  
+        # 添加debug信息
+            print("\n===以下是 marker/converters/pdf.py 文件中的系列参数 ===")
+            print(f"🔧 使用的LLM服务类: {llm_service.__class__.__name__}")  # 添加此行
+            print(f"🔧 配置的模型名称: {config.get('openai_model', '未设置')}")  # 添加此行        
+            print(f"🔧 支持的输出格式: {config.get('output_format', '未设置')}")  # 添加此行            
+            print("===以上是 marker/converters/pdf.py 文件中的系列参数 ===\n")   
+               
         if config is None:
             config = {}
 
