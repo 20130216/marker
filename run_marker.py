@@ -103,16 +103,32 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     )
 
     # 解析 PDF
-    result = converter(input_path)
+    rendered = converter(input_path)
+
+    # 使用 text_from_rendered 提取文本、扩展名、图片
+    from marker.output import text_from_rendered
+    text, ext, images = text_from_rendered(rendered)
+    metadata = getattr(rendered, "metadata", {})
 
     # 构造输出路径
-    output_path = str(Path(config['output_dir']) / f"{Path(input_path).stem}.md")
+    output_base = str(Path(config['output_dir']) / f"{Path(input_path).stem}")
+    output_path = f"{output_base}.{ext}"
 
-    # 安全地写入文件
-    content = result.to_markdown() if hasattr(result, "to_markdown") else str(result)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    # 保存文本
     with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(content)
+        f.write(text)
+
+    # 保存 metadata
+    with open(f"{output_base}_meta.json", 'w', encoding='utf-8') as f:
+        import json
+        f.write(json.dumps(metadata, indent=2, ensure_ascii=False))
+
+    # 保存图片
+    for img_name, img in images.items():
+        img_path = os.path.join(os.path.dirname(output_path), img_name)
+        img.save(img_path)
 
     return output_path
 
