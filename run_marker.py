@@ -53,6 +53,7 @@ def load_and_validate_config() -> Settings:
 
 def process_pdf(input_path: str, output_dir: str = None) -> str:
     """主处理流程：解析PDF为Markdown"""
+    # 读取 local.env 和其他配置。
     settings = load_and_validate_config()
 
     # 添加调试输出（验证LLM配置）
@@ -64,6 +65,8 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     print(f"  [os.environ] API密钥: {'***'+os.getenv('OPENAI_API_KEY')[-3:] if os.getenv('OPENAI_API_KEY') else '未设置'}")
     print(f"  API端点: {settings.OPENAI_BASE_URL}")
     print(f"  服务类型: {settings.LLM_SERVICE}")
+    print(f"  DEBUG: {settings.DEBUG}")
+    print(f"  DEBUG_LEVEL {settings.DEBUG_LEVEL}")
     print("\--- 新增参数验证 ---")
     print(f"  FORCE_OCR: {settings.FORCE_OCR}")
     print(f"  PAGE_RANGE: {settings.PAGE_RANGE}")
@@ -90,7 +93,7 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
     print("===以上是 run_marker.py中的系列参数 ===\n")
     config_parser = ConfigParser(config)
 
-    # 构造 PDF 转换器
+    # 构造 PDF 转换器 ,将 PDF 转为中间结构（如图片、文本块等）。
     converter = PdfConverter(
         config=config_parser.generate_config_dict(),
         artifact_dict=create_model_dict(),

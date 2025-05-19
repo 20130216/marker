@@ -93,6 +93,11 @@ class Settings(BaseSettings):
         env="DEBUG"
     )
 
+    DEBUG_LEVEL: str = Field(
+        default="info",
+        description="调试模式: info|verbose|debug",
+        env=" DEBUG_LEVEL"
+    )
     # 在Settings类中添加以下字段
     FORCE_OCR: bool = Field(
         default=False,

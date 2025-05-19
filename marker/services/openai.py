@@ -77,7 +77,7 @@ class OpenAIService(BaseService):
         ]
         
         # 添加调试代码，输出请求的消息内容
-        print(f"🔥 marker/services/openai.py 中传递的消息: {messages}")  # 输出传递给模型的消息体 
+        # print(f"🔥 marker/services/openai.py 中传递的消息: {messages}")  # 输出传递给模型的消息体 
         
         if max_retries is None:
             max_retries = self.max_retries
