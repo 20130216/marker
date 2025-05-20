@@ -159,23 +159,9 @@ class Settings(BaseSettings):
 
     @computed_field
     @property
-    def TORCH_DEVICE(self) -> str:
-        if torch.cuda.is_available():
-            return "cuda"
-        if torch.backends.mps.is_available():
-            return "mps"
-        return "cpu"
-
-    @computed_field
-    @property
     def TORCH_DEVICE_MODEL(self) -> str:
         """兼容旧代码的别名"""
         return self.TORCH_DEVICE
-
-    @computed_field
-    @property
-    def MODEL_DTYPE(self) -> torch.dtype:
-        return torch.bfloat16 if self.TORCH_DEVICE == "cuda" else torch.float32
     # ==================== 配置源设置 ====================
     class Config:
         extra = "ignore"
