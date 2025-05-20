@@ -29,6 +29,13 @@ def load_environment_variables():
 
 # ==================== 主配置类 ====================
 class Settings(BaseSettings):
+    # ----- 设置这个重要的控制枢纽：USE_LLM；默认不用 LLM，只有明确写 True 才用 -----    
+    USE_LLM: bool = Field(
+    default=False,
+    description="是否启用大模型（LLM）",
+    env="USE_LLM"
+    )
+    
     # ----- 核心服务配置 -----
     LLM_SERVICE: LLMServiceType = Field(
         default=LLMServiceType.OPENAI,
@@ -73,6 +80,12 @@ class Settings(BaseSettings):
         description="Font file path for text processing",
         env="FONT_PATH"
     )
+    
+    FONT_NAME: str = Field(
+        default="Arial",
+        description="Font name for text rendering",
+        env="FONT_NAME"
+    )    
 
     # ----- 系统配置 -----
     OUTPUT_DIR: str = Field(
