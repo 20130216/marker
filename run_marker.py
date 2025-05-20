@@ -96,6 +96,7 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
         'openai_base_url': settings.OPENAI_BASE_URL,
         'output_dir': output_dir or settings.OUTPUT_DIR,
         'output_format': settings.OUTPUT_FORMAT,
+        'force_layout_block': settings.FORCE_LAYOUT_BLOCK,        
         'force_ocr': settings.FORCE_OCR,  # 从这里新增几个参数
         'page_range': settings.PAGE_RANGE,
         'languages': settings.LANGUAGES,
@@ -118,9 +119,12 @@ def process_pdf(input_path: str, output_dir: str = None) -> str:
         print(f"✅ [LLM已启用] service={config['llm_service']}, model={config['openai_model']}")
     else:
         print("🚫 [LLM未启用] 本次不会调用任何大模型（如gpt-4.1），仅使用传统/规则/ocr等流程。")
+        
     print("\--- DEBUG相关参数 ---")    
     print(f"  DEBUG: {settings.DEBUG}")
     print(f"  DEBUG_LEVEL {settings.DEBUG_LEVEL}")
+    print("\--- FORCE_LAYOUT_BLOCK设置（识别布局设置） ---")
+    print(f"  force_layout_block: {settings.FORCE_LAYOUT_BLOCK}")    
     print("\--- 新增参数验证 ---")
     print(f"  FORCE_OCR: {settings.FORCE_OCR}")
     print(f"  PAGE_RANGE: {settings.PAGE_RANGE}")

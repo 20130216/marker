@@ -6,6 +6,7 @@ from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings
 from enum import Enum
 
+from typing import Optional
 # ==================== 基础配置 ====================
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -67,12 +68,6 @@ class Settings(BaseSettings):
         description="Output image format (png/jpg/webp)",
         env="OUTPUT_IMAGE_FORMAT"
     )
-    # ----- 新增 GOOGLE_API_KEY 配置 -----
-    # GOOGLE_API_KEY: Optional[str] = Field(
-    #     default=None,
-    #     description="Google API key",
-    #     env="GOOGLE_API_KEY"
-    # )
     
         # ----- 新增 FONT_PATH 配置 -----
     FONT_PATH: str = Field(
@@ -111,6 +106,15 @@ class Settings(BaseSettings):
         description="调试模式: info|verbose|debug",
         env=" DEBUG_LEVEL"
     )
+
+    # ...指定布局块类型，默认为None，此时marker_single 工具会采用默认行为：使用 LLM 时：工具先使用 LayoutBuilder 进行初步布局识别，再通过 LLMLayoutBuilder（或类似 LLM 模块）进行优化；不使用 LLM 时：工具仅使用 LayoutBuilder 进行布局解析...
+
+    FORCE_LAYOUT_BLOCK: Optional[str] = Field(
+        default=None,
+        description="强制指定布局块类型（如 Table、Text、Figure 等）",
+        env="FORCE_LAYOUT_BLOCK"
+    )
+    
     # 在Settings类中添加以下字段
     FORCE_OCR: bool = Field(
         default=False,
