@@ -91,10 +91,13 @@ class PdfProvider(BaseProvider):
 
             if self.page_range is None:
                 self.page_range = range(len(doc))
-
-            assert max(self.page_range) < len(doc) and min(self.page_range) >= 0, (
-                f"Invalid page range, values must be between 0 and {len(doc) - 1}.  Min of provided page range is {min(self.page_range)} and max is {max(self.page_range)}."
-            )
+            else:
+                # 自动裁剪到实际页数范围
+                self.page_range = [p for p in self.page_range if 0 <= p < len(doc)]
+                if not self.page_range:
+                    raise ValueError(
+                        f"Provided page range is out of bounds. PDF has {len(doc)} pages."
+                    )
 
             if self.force_ocr:
                 # Manually assign page bboxes, since we can't get them from pdftext
